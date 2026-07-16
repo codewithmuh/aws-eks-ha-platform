@@ -1,0 +1,21 @@
+# Local kind overlay: in-cluster stores, locally-loaded images (no registry pull).
+# Deploy after `kind load docker-image ...` — see scripts/kind-up.sh.
+
+login-service:
+  image: {pullPolicy: IfNotPresent}
+  replicaCount: 2
+  env:
+    DATABASE_URL: postgresql://platform:platform@postgres:5432/platform
+
+authorize-service:
+  image: {pullPolicy: IfNotPresent}
+  replicaCount: 2
+  env:
+    VALKEY_URL: redis://valkey:6379/0
+
+approval-worker:
+  image: {pullPolicy: IfNotPresent}
+  replicaCount: 2
+  env:
+    DATABASE_URL: postgresql://platform:platform@postgres:5432/platform
+    REDPANDA_BOOTSTRAP: redpanda:9092

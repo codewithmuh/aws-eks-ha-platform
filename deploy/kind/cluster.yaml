@@ -1,0 +1,17 @@
+# A local stand-in for a 3-AZ EKS cluster: one control plane + three workers, each
+# labelled as a distinct "zone" so topologySpreadConstraints behave like they do on
+# AWS. Killing a worker node == losing an availability zone in the chaos demo.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: ha-platform
+nodes:
+  - role: control-plane
+  - role: worker
+    labels:
+      topology.kubernetes.io/zone: zone-a
+  - role: worker
+    labels:
+      topology.kubernetes.io/zone: zone-b
+  - role: worker
+    labels:
+      topology.kubernetes.io/zone: zone-c

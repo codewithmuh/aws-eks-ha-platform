@@ -1,0 +1,10 @@
+# Default umbrella values. The per-service subcharts already default to the
+# in-cluster stores, so `helm install platform .` works on kind as-is.
+#
+# Pick an environment overlay explicitly for clarity:
+#   kind :  helm upgrade --install platform charts/platform -f charts/platform/values-kind.yaml
+#   aws  :  helm upgrade --install platform charts/platform -f charts/platform/values-aws.yaml
+#
+# Override a subchart by nesting under its chart name, e.g.:
+#   login-service:
+#     replicaCount: 4

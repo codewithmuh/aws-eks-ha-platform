@@ -1,0 +1,12 @@
+apiVersion: v2
+name: approval-worker
+description: >-
+  Workflow singleton — 'fenced-singleton' archetype. Runs 2 replicas for
+  availability but only the leader acts, guarded by a Postgres fencing token.
+type: application
+version: 0.1.0
+appVersion: "latest"
+dependencies:
+  - name: platform-lib
+    version: 0.1.0
+    repository: "file://../platform-lib"

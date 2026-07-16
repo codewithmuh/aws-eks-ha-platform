@@ -1,0 +1,35 @@
+# 'web' archetype: stateless, several replicas spread across zones.
+archetype: web
+replicaCount: 3
+
+image:
+  repository: aws-eks-ha-platform-login-service
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+probes:
+  enabled: true          # /readyz fail-closed on DB, /healthz fail-open
+
+spreadAcrossZones: true
+pdb:
+  minAvailable: 1
+
+# Config from env. Defaults point at the in-cluster stores (kind). On AWS these
+# are overridden to RDS endpoints and secrets are injected via envFrom (see
+# charts/platform/values-aws.yaml).
+env:
+  DATABASE_URL: postgresql://platform:platform@postgres:5432/platform
+  # JWT_SECRET intentionally not set here: locally the app default is used; on AWS
+  # it is injected from Secrets Manager via envFrom (see charts/platform/values-aws.yaml).
+
+resources:
+  requests: {cpu: 50m, memory: 96Mi}
+  limits: {cpu: 500m, memory: 256Mi}
+
+migration:
+  backoffLimit: 3
+  command: ["python", "-c", "import main; main.init_db(); print('login schema ready')"]

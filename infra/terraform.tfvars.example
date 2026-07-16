@@ -1,0 +1,9 @@
+# Copy to terraform.tfvars and adjust. terraform.tfvars is gitignored.
+region      = "us-east-1"
+project     = "ha-platform"
+environment = "prod"
+
+# Right-size for cost. These defaults are modest; scale up for real load.
+node_instance_types = ["t3.large"]
+node_desired_size   = 3
+db_instance_class   = "db.t3.medium"

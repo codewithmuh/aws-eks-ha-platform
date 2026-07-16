@@ -1,0 +1,36 @@
+# 'fenced-singleton' archetype: 2 replicas for availability, but only the leader
+# writes — a Postgres fencing token guarantees a zombie can never write twice.
+archetype: fenced-singleton
+replicaCount: 2
+
+image:
+  repository: aws-eks-ha-platform-approval-worker
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+probes:
+  enabled: true
+
+# Each replica needs a stable identity for leader election -> inject the pod name.
+downwardPodName: true
+spreadAcrossZones: true
+pdb:
+  minAvailable: 1        # keep at least one candidate during voluntary disruption
+
+env:
+  DATABASE_URL: postgresql://platform:platform@postgres:5432/platform
+  REDPANDA_BOOTSTRAP: redpanda:9092
+  LEASE_TTL_SECONDS: "10"
+  LEASE_RENEW_SECONDS: "3"
+
+resources:
+  requests: {cpu: 50m, memory: 96Mi}
+  limits: {cpu: 500m, memory: 256Mi}
+
+migration:
+  backoffLimit: 3
+  command: ["python", "-c", "import main; main.init_db(); print('workflow schema ready')"]

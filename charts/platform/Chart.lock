@@ -1,0 +1,12 @@
+dependencies:
+- name: login-service
+  repository: file://../login-service
+  version: 0.1.0
+- name: authorize-service
+  repository: file://../authorize-service
+  version: 0.1.0
+- name: approval-worker
+  repository: file://../approval-worker
+  version: 0.1.0
+digest: sha256:d58140b0af697bdf042423582681602b0f6870bce65b85533708924231d700f9
+generated: "2026-07-16T18:31:30.140454+05:00"

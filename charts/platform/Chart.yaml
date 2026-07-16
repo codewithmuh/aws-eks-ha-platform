@@ -1,0 +1,19 @@
+apiVersion: v2
+name: platform
+description: >-
+  Umbrella chart that deploys the whole platform (login-service, authorize-service,
+  approval-worker). Compose it with Argo CD ApplicationSets, or install directly with
+  a per-environment values file (values-kind.yaml or values-aws.yaml).
+type: application
+version: 0.1.0
+appVersion: "latest"
+dependencies:
+  - name: login-service
+    version: 0.1.0
+    repository: "file://../login-service"
+  - name: authorize-service
+    version: 0.1.0
+    repository: "file://../authorize-service"
+  - name: approval-worker
+    version: 0.1.0
+    repository: "file://../approval-worker"

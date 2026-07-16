@@ -1,0 +1,51 @@
+# AWS / EKS overlay: MANAGED services, no self-hosted databases.
+#
+#   Postgres  -> RDS for PostgreSQL (Multi-AZ)      DATABASE_URL host
+#   Valkey    -> ElastiCache (Valkey engine)         VALKEY_URL host
+#   Kafka     -> Amazon MSK                           REDPANDA_BOOTSTRAP brokers
+#   Secrets   -> AWS Secrets Manager, surfaced as the k8s Secret `platform-secrets`
+#                by the Secrets Store CSI driver (PGPASSWORD, JWT_SECRET, ...)
+#
+# Replace the REPLACE_* placeholders with `terraform output` values from infra/.
+# Note the DATABASE_URL carries NO password — libpq (psycopg2) reads PGPASSWORD
+# from the injected secret, so credentials never live in the chart or git.
+
+login-service:
+  image:
+    repository: REPLACE_ACCOUNT_ID.dkr.ecr.REPLACE_REGION.amazonaws.com/login-service
+    tag: v0.1.0
+    pullPolicy: IfNotPresent
+  replicaCount: 3
+  serviceAccountName: login-service          # IRSA-bound (see infra/irsa.tf)
+  env:
+    DATABASE_URL: postgresql://platform@REPLACE_RDS_ENDPOINT:5432/platform
+  envFrom:
+    - secretRef:
+        name: platform-secrets
+
+authorize-service:
+  image:
+    repository: REPLACE_ACCOUNT_ID.dkr.ecr.REPLACE_REGION.amazonaws.com/authorize-service
+    tag: v0.1.0
+    pullPolicy: IfNotPresent
+  replicaCount: 3
+  serviceAccountName: authorize-service
+  env:
+    VALKEY_URL: redis://REPLACE_ELASTICACHE_ENDPOINT:6379/0
+  envFrom:
+    - secretRef:
+        name: platform-secrets
+
+approval-worker:
+  image:
+    repository: REPLACE_ACCOUNT_ID.dkr.ecr.REPLACE_REGION.amazonaws.com/approval-worker
+    tag: v0.1.0
+    pullPolicy: IfNotPresent
+  replicaCount: 2                            # fenced singleton: 2 for availability
+  serviceAccountName: approval-worker
+  env:
+    DATABASE_URL: postgresql://platform@REPLACE_RDS_ENDPOINT:5432/platform
+    REDPANDA_BOOTSTRAP: REPLACE_MSK_BOOTSTRAP_BROKERS
+  envFrom:
+    - secretRef:
+        name: platform-secrets

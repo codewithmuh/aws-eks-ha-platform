@@ -1,0 +1,9 @@
+apiVersion: v2
+name: platform-lib
+description: >-
+  Library chart holding the platform's workload archetypes (web, scalable worker,
+  fenced singleton, migration Job) and its non-negotiable security defaults
+  (non-root, restricted Pod Security, fail-closed readiness). Per-service charts
+  depend on this and stay tiny.
+type: library
+version: 0.1.0

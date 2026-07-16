@@ -1,0 +1,38 @@
+# GitOps delivery: one ApplicationSet fans out into an Argo CD Application per
+# service chart. Argo resolves each chart's file://../platform-lib dependency from
+# the cloned repo, and sync-waves (migration Job at wave -1) order schema before app.
+#
+# Prereqs: Argo CD installed in the `argocd` namespace; replace repoURL with your fork.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - list:
+        elements:
+          - name: login-service
+          - name: authorize-service
+          - name: approval-worker
+  template:
+    metadata:
+      name: "{{.name}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/REPLACE_ME/aws-eks-ha-platform.git
+        targetRevision: main
+        path: "charts/{{.name}}"
+        # Swap to values-aws.yaml equivalents per environment, or use multiple
+        # generators (list of {name, env}) for a dev/staging/prod matrix.
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: platform
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

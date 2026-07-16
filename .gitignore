@@ -1,0 +1,32 @@
+# Secrets / local env
+.env
+*.env.local
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+override.tf
+override.tf.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Kube / helm
+kubeconfig*
+*.kubeconfig
+charts/**/charts/
+charts/**/*.tgz
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp

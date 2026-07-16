@@ -1,0 +1,10 @@
+apiVersion: v2
+name: login-service
+description: Identity provider — 'web' archetype (stateless, horizontally scalable).
+type: application
+version: 0.1.0
+appVersion: "latest"
+dependencies:
+  - name: platform-lib
+    version: 0.1.0
+    repository: "file://../platform-lib"

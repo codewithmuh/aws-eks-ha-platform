@@ -1,0 +1,27 @@
+# 'web' archetype. Stateless PDP; Valkey is a cache, not a source of truth.
+archetype: web
+replicaCount: 3
+
+image:
+  repository: aws-eks-ha-platform-authorize-service
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+probes:
+  enabled: true
+
+spreadAcrossZones: true
+pdb:
+  minAvailable: 1
+
+env:
+  VALKEY_URL: redis://valkey:6379/0
+  # JWT_SECRET injected from Secrets Manager on AWS (see values-aws.yaml); app default locally.
+
+resources:
+  requests: {cpu: 50m, memory: 96Mi}
+  limits: {cpu: 500m, memory: 256Mi}
