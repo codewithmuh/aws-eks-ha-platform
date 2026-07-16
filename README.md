@@ -25,13 +25,21 @@ platform engineer would.** Then prove it survives a zone loss on camera.
 > Kubernetes with genuine three-zone HA, GitOps, and certified failover drills.
 > The services are deliberately small. **The value is everything around them.**
 
+> [!TIP]
+> **New here? Follow the guided study path → [docs/LEARN.md](docs/LEARN.md)** — an ordered
+> "read this, run that, now you understand X" walkthrough of the whole project.
+
 ---
 
 ## 📐 Architecture
 
+![AWS architecture — aws-eks-ha-platform](aws-eks-ha-platform.png)
+
 One set of container images runs in three places — only the connection strings change.
 On AWS the whole data layer is **managed** (RDS, ElastiCache, MSK), so its HA is AWS's
 job and the cluster only worries about the stateless services and the fenced singleton.
+
+<details><summary>📄 Simplified inline view (Mermaid — renders without images)</summary>
 
 ```mermaid
 flowchart TB
@@ -56,8 +64,12 @@ flowchart TB
     WORKER -. IRSA .-> SM
 ```
 
-Full diagrams (service graph, AWS topology, fencing sequence): **[docs/architecture.md](docs/architecture.md)**
-· Whiteboard explainer for talks/video: **[docs/diagrams/architecture.excalidraw](docs/diagrams/architecture.excalidraw)** + **[walkthrough script](docs/diagrams/whiteboard-walkthrough.md)**
+</details>
+
+<sub>The diagram above is also reproducible as code — `python docs/diagrams/aws_diagram.py` — with four generation options (incl. a Kiro / Amazon Q prompt) in [docs/diagrams/generate-diagram.md](docs/diagrams/generate-diagram.md).</sub>
+
+More diagrams (service graph, fencing sequence): **[docs/architecture.md](docs/architecture.md)**
+· Whiteboard explainer for talks/video: **[architecture.excalidraw](docs/diagrams/architecture.excalidraw)** + **[walkthrough script](docs/diagrams/whiteboard-walkthrough.md)**
 
 | | Local (Compose) | kind (HA demo) | **AWS (production)** |
 |---|---|---|---|
