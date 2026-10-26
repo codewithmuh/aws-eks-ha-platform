@@ -6,13 +6,19 @@
 three-zone, highly-available Kubernetes deployment on AWS — the way a senior
 platform engineer would.** Then prove it survives a zone loss on camera.
 
-![Kubernetes](https://img.shields.io/badge/Kubernetes-EKS-326CE5)
-![Helm](https://img.shields.io/badge/Helm-library%20chart-0F1689)
-![Terraform](https://img.shields.io/badge/IaC-Terraform-7B42BC)
-![AWS](https://img.shields.io/badge/cloud-AWS-FF9900)
-![Argo CD](https://img.shields.io/badge/GitOps-Argo%20CD-EF7B4D)
-![FastAPI](https://img.shields.io/badge/services-FastAPI-009688)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+<p align="center">
+  <a href="https://github.com/codewithmuh/aws-eks-ha-platform/releases"><img src="https://img.shields.io/github/v/release/codewithmuh/aws-eks-ha-platform?color=blue&label=version&style=flat-square" alt="GitHub Release"></a>
+  <a href="https://github.com/codewithmuh/aws-eks-ha-platform/stargazers"><img src="https://img.shields.io/github/stars/codewithmuh/aws-eks-ha-platform?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/codewithmuh/aws-eks-ha-platform/network/members"><img src="https://img.shields.io/github/forks/codewithmuh/aws-eks-ha-platform?style=flat-square" alt="Forks"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat-square" alt="License: MIT"></a>
+  <a href="https://youtube.com/@devopsbymuh"><img src="https://img.shields.io/badge/YouTube-%40devopsbymuh-FF0000?style=flat-square&logo=youtube&logoColor=white" alt="YouTube"></a>
+  <br>
+  <img src="https://img.shields.io/badge/Kubernetes-AWS%20EKS%20HA-326CE5?style=flat-square&logo=kubernetes&logoColor=white" alt="Kubernetes">
+  <img src="https://img.shields.io/badge/GitOps-Argo%20CD-EF7B4D?style=flat-square&logo=argo&logoColor=white" alt="Argo CD">
+  <img src="https://img.shields.io/badge/Helm-3-0F1689?style=flat-square&logo=helm&logoColor=white" alt="Helm">
+  <img src="https://img.shields.io/badge/IaC-Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white" alt="Terraform">
+  <img src="https://img.shields.io/badge/Data-RDS%20%7C%20Valkey%20%7C%20MSK-FF9900?style=flat-square&logo=amazon-aws&logoColor=white" alt="AWS Data Services">
+</p>
 
 📺 **Watch the build:** [devopsbymuh on YouTube](https://youtube.com/@devopsbymuh)
 
